@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx 
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/data/jpa
+    	https://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+
+
+	<!-- ::::::::::: CONFIGURANDO ANOTACIONES CON SPRING :::::::::::: -->
+	
+	<context:annotation-config></context:annotation-config>
+	<context:component-scan base-package="com.excelsis"></context:component-scan>
+	
+	<!-- :::::::: BEAN QUE PERMITE CARGAR UN ARCHIVO .PROPERTIES CON SPRING ::::::::::::::: -->
+	
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:application.properties" />
+	</bean>
+	
+	<!-- ::::::::: BEAN DE SPRING QUE CONFIGURA EL DATASOURCE DE CONEXION A LA BASE DE DATOS ::::::::: -->
+	
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	    <property name="driverClassName" value="${spring.jdbc.driverClassName}" />
+	    <property name="url" value="${spring.jdbc.url}" />
+	    <property name="username" value="${spring.jdbc.username}" />
+	    <property name="password" value="${spring.jdbc.password}" />
+	</bean>
+	
+	<!-- ::::::::: BEAN DE SPRING QUE CONFIGURA EL ENTITY MANAGER Y MAPPEA LAS ENTIDADES DE JPA :::::::::: -->
+	
+	<bean id="myEmf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+	    <property name="dataSource" ref="dataSource" />
+	    <property name="packagesToScan" value="com.excelsis.DemoClienteServidor.entity" />
+	    <property name="jpaVendorAdapter">
+	        <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+	    </property>
+	    <property name="jpaProperties">
+	        <props>
+	            <prop key="hibernate.show_sql">true</prop>
+	            <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+	        </props>
+	    </property>
+	</bean>
+	
+	<!-- ::::::::: BEAN DE SPRING QUE CONFIGURA EL OBJETO TRANSACTION MANAGER PARA EJECUTAR LAS TRANSACCIONES A LA BASE DE DATOS :::::::: -->
+	
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+	    <property name="entityManagerFactory" ref="myEmf" />
+	</bean>	
+		
+	<!-- :::::::::::::::: ETIQUETA QUE PERMITE UTILIZAR LA ANOTACION @Transactional DE SPRING PARA EJECUTAR TRANSACCIONES DE JPA::::::::: -->
+	
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+	
+	<!-- ::::::::: BEAN DE SPRING QUE CONFIGURA LAS CLASES JAVA DE JPA QUE SON CONSIDERADAS COMO REPOSITORIOS ::::::::::::::: -->
+	<jpa:repositories base-package="com.excelsis.DemoClienteServidor.repository" entity-manager-factory-ref="myEmf" />
+</beans>

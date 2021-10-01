@@ -1,0 +1,107 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:head>
+        <style>
+        
+        body {
+        	background-image:url(#{request.contextPath}/resources/img/Wallpaper_OW.png);
+        }
+        
+        /* reset on the showcase style*/
+        body .ui-panelgrid .ui-panelgrid-cell {
+            background-color: transparent;
+        }
+
+        /* example use of styles for your form */
+        .my-heading-row {
+            background-color: var(--surface-c);
+            font-weight: bold;
+        }
+        </style>
+    </h:head>
+
+    <h:body>
+        
+        <div class="card">
+		    <h:form id="formAnimes">
+		    
+		    	<ui:include src="/loading.xhtml"></ui:include>
+		    
+		    	<p:growl id="msgContentAnime" showDetail="true"></p:growl>
+		    	
+		    	<p:commandButton value="Agregar" icon="pi pi-plus" oncomplete="PF('dlgAnime').show();" style="margin-bottom: 20px"/>
+		    
+		        <p:dataTable id="tblAnimes" var="anime" value="#{animeController.animes}" rows="10"
+		                     paginator="true" emptyMessage="No se encontraron animes"
+		                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+		                     currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros"
+		                     rowsPerPageTemplate="5,10,{ShowAll|'All'}">
+		
+		            <p:column headerText="Nombre">
+		                <h:outputText value="#{anime.nombre}" />
+		            </p:column>
+		
+		            <p:column headerText="Género">
+		                <h:outputText value="#{anime.genero}" />
+		            </p:column>
+		
+		            <p:column headerText="Fecha de Creación">
+		                <h:outputText value="#{anime.fechaCreacion}" />
+		            </p:column>
+		
+		            <p:column headerText="Editar">
+		                <p:commandButton icon="pi pi-pencil" styleClass="ui-button-success" oncomplete="PF('dlgAnime').show()" 
+		                		immediate="true" update="formAddUpdAnime" action="#{animeController.cargarAnime(anime)}"></p:commandButton>
+		            </p:column>
+		            
+		            <p:column headerText="Eliminar">
+		                <p:commandButton icon="pi pi-trash" styleClass="ui-button-danger" action="#{animeController.eliminar(anime)}"
+		                					update="formAnimes:msgContentAnime, formAnimes:tblAnimes">
+		                	<p:confirm header="Confirmación" message="¿Estás seguro de eliminar el anime #{anime.nombre}" icon="pi pi-info-circle"/>
+		                </p:commandButton>
+		            </p:column>
+		
+		        </p:dataTable>
+		        
+		        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+		            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+		            <p:commandButton value="Sí" type="button" styleClass="ui-confirmdialog-yes" />
+		        </p:confirmDialog>
+		    </h:form>
+		    
+		    <p:dialog header="Formulario de Anime" widgetVar="dlgAnime" minHeight="40" showEffect="fade" modal="true">
+				<h:form id="formAddUpdAnime">
+
+					<p:growl id="msgAnime" showDetail="true" skipDetailIfEqualsSummary="true"></p:growl>
+
+				    <p:panelGrid columns="2"
+				                 columnClasses="ui-grid-col-4,ui-grid-col-8"
+				                 layout="grid"
+				                 styleClass="ui-panelgrid-blank ui-fluid"
+				                 style="border:0px none; background-color:transparent;">
+
+				        <p:outputLabel for="@next" value="Nombre: "/>
+				        <p:inputText id="txtNombre" value="#{animeController.anime.nombre}" required="true" requiredMessage="El nombre es obligatorio"/>
+				
+								        <p:outputLabel for="@next" value="Género: "/>
+				        <p:inputText id="txtGenero" value="#{animeController.anime.genero}" required="true" requiredMessage="El género es obligatorio"/>
+				
+				        <p:row style="float: right">
+				            <p:column styleClass="ui-grid-col-12">
+				                <p:commandButton value="Guardar" styleClass="p-mr-2" style="width: auto" 
+				                				 update="formAddUpdAnime, msgAnime, formAnimes:tblAnimes" action="#{animeController.guardar}"/>
+				                <p:commandButton value="Cancelar" styleClass="p-mr-2; ui-button-danger" 
+				                				 style="width: auto; margin-left: 10px" onclick="PF('dlgAnime').hide()"/>
+				            </p:column>
+				        </p:row>
+				    </p:panelGrid>
+			   	</h:form>
+			</p:dialog>
+		</div>
+        
+    </h:body>
+</html>
