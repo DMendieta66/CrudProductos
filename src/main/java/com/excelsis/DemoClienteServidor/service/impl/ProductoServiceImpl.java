@@ -17,8 +17,8 @@ public class ProductoServiceImpl implements ProductoService {
 
     @Override
     public List<Producto> mostrarProductos() {
-        List<Producto> productosConsultados= (List<Producto>) StreamSupport.stream(this.productoRepository.findAll().spliterator(),false);
-        return productosConsultados;
+
+        return (List<Producto>) productoRepository.findAll();
     }
 
     @Override

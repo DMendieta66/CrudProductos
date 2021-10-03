@@ -5,7 +5,7 @@
 	id="WebApp_ID" version="4.0">
 	<display-name>project-web2</display-name>
 	<welcome-file-list>
-		<welcome-file>animes.xhtml</welcome-file>	
+		<welcome-file>productos.xhtml</welcome-file>
 	</welcome-file-list>
 	<!-- indica si el proyecto esta en fase de desarrollo o produccion en jsf -->
 	<context-param>

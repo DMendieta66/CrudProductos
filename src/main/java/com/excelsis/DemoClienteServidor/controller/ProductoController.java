@@ -43,6 +43,7 @@ public class ProductoController {
     public void consultar() {
         this.listaProductos=this.productoServiceImpl.mostrarProductos();
     }
+
     public void guardar() {
         if (this.producto.getIdProducto()==null){
 
@@ -66,5 +67,36 @@ public class ProductoController {
             CommonsUtils.mostrarMensaje(FacesMessage.SEVERITY_INFO, "¡Éxito!",
                     "Producto " + modificar.getNombreProducto() + " modificado exitósamente");
         }
+    }
+    public void eliminarProducto(Producto producto) {
+            this.productoServiceImpl.eliminarProducto(producto.getIdProducto());
+            this.consultar();
+    }
+    public void cargarProducto(Producto cargarProducto) {
+        this.producto = cargarProducto;
+    }
+
+    public List<Producto> getListaProductos() {
+        return listaProductos;
+    }
+
+    public void setListaProductos(List<Producto> listaProductos) {
+        this.listaProductos = listaProductos;
+    }
+
+    public Producto getProducto() {
+        return producto;
+    }
+
+    public void setProducto(Producto producto) {
+        this.producto = producto;
+    }
+
+    public ProductoService getProductoServiceImpl() {
+        return productoServiceImpl;
+    }
+
+    public void setProductoServiceImpl(ProductoService productoServiceImpl) {
+        this.productoServiceImpl = productoServiceImpl;
     }
 }

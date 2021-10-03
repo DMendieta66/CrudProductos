@@ -11,15 +11,15 @@ import javax.persistence.*;
 public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id",length = 10)
+    @Column(name = "id")
     private Integer idProducto;
-    @Column(name = "nombre",length = 40)
+    @Column(name = "nombre")
     private String nombreProducto;
-    @Column(name = "detalle",length = 100)
+    @Column(name = "detalle")
     private String detalleProducto;
-    @Column(name = "cantidad",length = 4)
+    @Column(name = "cantidad")
     private Integer cantidadProducto;
-    @Column(name = "precio",length = 10)
+    @Column(name = "precio")
     private Integer precioProducto;
 
 
