@@ -8,7 +8,7 @@
     <style>
 
         body {
-            background-image:url(#{request.contextPath}/resources/img/imagen.png);
+            background-image:url(#{request.contextPath}/resources/img/imagen2.jpg);
         }
 
         /* reset on the showcase style*/
@@ -33,41 +33,37 @@
 
             <p:growl id="msgContentProducto" showDetail="true"></p:growl>
 
-            <p:commandButton value="Agregar" icon="pi pi-plus" oncomplete="PF('dlgProducto').show();" style="margin-bottom: 20px"/>
+            <p:commandButton styleClass="rounded-button ui-button-success ui-button-outlined" value="Agregar" icon="pi pi-plus-circle" oncomplete="PF('dlgProducto').show();" style="margin-bottom: 20px"/>
 
             <p:dataTable id="tblProducto" var="producto" value="#{productoController.listaProductos}" rows="10"
                          paginator="true" emptyMessage="No se encontraron productos"
                          paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                          currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros"
-                         rowsPerPageTemplate="5,10,{ShowAll|'All'}">
+                         rowsPerPageTemplate="3,10,{ShowAll|'All'}">
 
-                <p:column headerText="Nombre">
+                <p:column headerText="Nombre del Producto">
                     <h:outputText value="#{producto.nombreProducto}" />
                 </p:column>
 
-                <p:column headerText="Detalle">
+                <p:column headerText="Detalle del Producto">
                     <h:outputText value="#{producto.detalleProducto}" />
                 </p:column>
 
-                <p:column headerText="cantidad">
+                <p:column headerText="Cantidad Disponible">
                     <h:outputText value="#{producto.cantidadProducto}" />
                 </p:column>
-                <p:column headerText="precio">
+                <p:column headerText="Precio Unitario">
                     <h:outputText value="#{producto.precioProducto}" />
                 </p:column>
 
-                <p:column headerText="Editar">
-                    <p:commandButton icon="pi pi-pencil" styleClass="ui-button-success" oncomplete="PF('dlgProducto').show()"
+                <p:column headerText="Acciones">
+                    <p:commandButton style="margin-right: 15px" icon="pi pi-pencil" styleClass="ui-button-success ui-button-flat" oncomplete="PF('dlgProducto').show()"
                                      immediate="true" update="formAddUpdProducto" action="#{productoController.cargarProducto(producto)}"></p:commandButton>
-                </p:column>
-
-                <p:column headerText="Eliminar">
-                    <p:commandButton icon="pi pi-trash" styleClass="ui-button-danger" action="#{productoController.eliminarProducto(producto)}"
+                    <p:commandButton icon="pi pi-trash" styleClass="ui-button-danger ui-button-flat" action="#{productoController.eliminarProducto(producto)}"
                                      update="formProducto:msgContentProducto, formProducto:tblProducto">
                         <p:confirm header="Confirmación" message="¿Estás seguro de eliminar el producto #{producto.nombreProducto}" icon="pi pi-info-circle"/>
                     </p:commandButton>
                 </p:column>
-
             </p:dataTable>
 
             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
