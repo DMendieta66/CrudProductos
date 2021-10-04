@@ -17,7 +17,7 @@ import java.util.List;
 public class ProductoController {
 
 
-    /**Lista para mostrar Productos **/
+    /**Lista paraa mostrar Productos **/
     private List<Producto> listaProductos;
 
     /**Objeto para guardar,modificar y eliminar Productos**/
@@ -66,6 +66,7 @@ public class ProductoController {
 
             CommonsUtils.mostrarMensaje(FacesMessage.SEVERITY_INFO, "¡Éxito!",
                     "Producto " + modificar.getNombreProducto() + " modificado exitósamente");
+            this.inicializarProductos();
         }
     }
     public void eliminarProducto(Producto producto) {
