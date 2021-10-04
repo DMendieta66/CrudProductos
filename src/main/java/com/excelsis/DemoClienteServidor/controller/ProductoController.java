@@ -67,6 +67,7 @@ public class ProductoController {
             CommonsUtils.mostrarMensaje(FacesMessage.SEVERITY_INFO, "¡Éxito!",
                     "Producto " + modificar.getNombreProducto() + " modificado exitósamente");
             this.inicializarProductos();
+
         }
     }
     public void eliminarProducto(Producto producto) {
